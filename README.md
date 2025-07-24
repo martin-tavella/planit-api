@@ -1,4 +1,4 @@
-# 🚀 Planit API
+# <h1><img src="./src/public/logo.png" width="100" heigth="100"> Planit API</h1>
 
 > API RESTful para **Planit**, un gestor de tareas divertido y creativo.  
 > Soporta **JWT Auth**, **Google OAuth2**, **validación con DTOs**, **Prisma ORM** y **PostgreSQL**.
