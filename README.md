@@ -1,4 +1,4 @@
-# <div align="center"><img src="./src/public/logo.png" width="300" heigth="300"></div>
+# <div align="center"><img src="./src/public/logo.png" width="500" heigth="500"></div>
 
 > API RESTful para **Planit**, un gestor de tareas divertido y creativo.  
 > Soporta **JWT Auth**, **Google OAuth2**, **validación con DTOs**, **Prisma ORM** y **PostgreSQL**.
