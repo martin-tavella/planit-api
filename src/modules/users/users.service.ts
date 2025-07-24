@@ -10,7 +10,7 @@ export class UsersService {
     email: string;
     name: string;
     password: string;
-    picture?: string
+    picture?: string;
   }): Promise<User> {
     return await this.prisma.user.create({ data: user });
   }
@@ -29,5 +29,15 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     return user;
+  }
+
+  async updatePicture(id: number, picture: string): Promise<void> {
+    const user = await this.prisma.user.update({
+      where: { id },
+      data: { picture },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
   }
 }
