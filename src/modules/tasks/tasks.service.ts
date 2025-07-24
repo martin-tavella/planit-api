@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateTaskDto } from './dtos/createTask.dto';
 
 @Injectable()
 export class TasksService {
@@ -8,6 +9,16 @@ export class TasksService {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     return await this.prisma.task.findMany({
       where: {
+        userId: userId,
+      },
+    });
+  }
+
+  async create(task: CreateTaskDto, userId: number) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    return await this.prisma.task.create({
+      data: {
+        ...task,
         userId: userId,
       },
     });
