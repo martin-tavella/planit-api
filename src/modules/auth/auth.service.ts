@@ -42,6 +42,7 @@ export class AuthService {
       email: user.email,
       name: user.name,
       password: hashedPassword,
+      picture: user.picture,
     });
 
     const payload = { sub: newUser.id, email: newUser.email };
@@ -73,6 +74,7 @@ export class AuthService {
         email: googleUser.email,
         name: googleUser.name,
         password: '', // Password is not used for Google login
+        picture: googleUser.picture,
       });
     }
 

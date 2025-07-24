@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Length,
   Matches,
@@ -27,4 +28,8 @@ export class RegisterDto {
     message: 'The password must contain at least one uppercase letter',
   })
   password: string;
+
+  @IsOptional()
+  @IsString()
+  picture?: string;
 }
