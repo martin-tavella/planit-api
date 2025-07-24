@@ -1,98 +1,278 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Planit API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> API RESTful para **Planit**, un gestor de tareas divertido y creativo.  
+> Soporta **JWT Auth**, **Google OAuth2**, **validación con DTOs**, **Prisma ORM** y **PostgreSQL**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🧰 Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
+![Passport.js](https://img.shields.io/badge/Passport.js-34E27A?logo=passport&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white)
+![Class Validator](https://img.shields.io/badge/class--validator-ff6b6b)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white)
 
-## Project setup
+---
 
-```bash
-$ npm install
+## ✨ Features
+
+- 🔐 **Autenticación JWT**
+- 🟢 **Login con Google OAuth 2.0**
+- ✅ **Validación con DTOs (`class-validator`)**
+- 🧭 **Rutas protegidas con `@UseGuards(AuthGuard('jwt'))`**
+- 🧱 **Prisma ORM + PostgreSQL** con tipos estrictos
+- 🧺 **Manejo claro de errores con `HttpException`**
+- 🧩 **Decorador `@CurrentUser()`** para extraer el usuario del token
+
+---
+
+## 📂 Estructura del proyecto
+
+```
+src/
+├── auth/
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── auth.module.ts
+│   ├── dto/
+│   │   ├── login.dto.ts
+│   │   └── register.dto.ts
+│   └── strategies/
+│       ├── jwt.strategy.ts
+│       └── google.strategy.ts
+├── users/
+│   ├── users.controller.ts
+│   ├── users.service.ts
+│   └── users.module.ts
+├── tasks/
+│   ├── tasks.controller.ts
+│   ├── tasks.service.ts
+│   └── dto/
+│       ├── create-task.dto.ts
+│       └── update-task.dto.ts
+├── common/
+│   ├── decorators/current-user.decorator.ts
+│   └── enums/
+│       ├── priority.enum.ts
+│       └── status.enum.ts
+└── prisma/
+    ├── prisma.service.ts
+    └── schema.prisma
 ```
 
-## Compile and run the project
+---
+
+## 🛠️ Instalación & Setup
 
 ```bash
-# development
-$ npm run start
+# 1) Clonar
+git clone https://github.com/martin-tavella/planit-api.git
+cd planit-api
 
-# watch mode
-$ npm run start:dev
+# 2) Instalar dependencias
+npm install
 
-# production mode
-$ npm run start:prod
+# 3) Variables de entorno
+cp .env.example .env
+
+# 4) Migraciones Prisma
+npx prisma migrate dev
+
+# 5) Generar el cliente de Prisma
+npx prisma generate
+
+# 6) Levantar el servidor
+npm run start:dev
 ```
 
-## Run tests
+### 📄 `.env` (ejemplo)
 
-```bash
-# unit tests
-$ npm run test
+```env
+# DB
+DATABASE_URL="postgresql://user:password@localhost:5432/planit"
 
-# e2e tests
-$ npm run test:e2e
+# JWT
+JWT_SECRET="supersecret"
+JWT_EXPIRES_IN="1d"
 
-# test coverage
-$ npm run test:cov
+# Google OAuth
+GOOGLE_CLIENT_ID="..."
+GOOGLE_CLIENT_SECRET="..."
+GOOGLE_CALLBACK_URL="http://localhost:3000/auth/google/redirect"
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 🔐 Autenticación
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### JWT Flow
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+- `POST /auth/register` → Registro del usuario (password hasheado con bcrypt).
+- `POST /auth/login` → Devuelve `access_token` (JWT).
+- Rutas protegidas usan: `@UseGuards(AuthGuard('jwt'))`.
+
+### Google OAuth2 Flow
+
+- `GET /auth/google` → Redirige a Google.
+- `GET /auth/google/redirect` → Recibe el perfil, crea o loguea al usuario y retorna **JWT propio**.
+
+---
+
+## 📚 Endpoints
+
+### 🔑 Auth
+
+#### `POST /auth/register`
+Registra usuario y devuelve JWT.
+
+**Body**
+```json
+{
+  "name": "Martín",
+  "email": "martin@mail.com",
+  "password": "supersegura123"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### `POST /auth/login`
+Devuelve JWT si las credenciales son correctas.
 
-## Resources
+**Body**
+```json
+{
+  "email": "martin@mail.com",
+  "password": "supersegura123"
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+**Response**
+```json
+{
+  "access_token": "..."
+}
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+#### `GET /auth/google`
+Inicia el flujo de auth con Google.
 
-## Support
+#### `GET /auth/google/redirect`
+Callback de Google. Devuelve tu propio JWT.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+### 👤 Users
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### `GET /users/email/:email`
+Busca un usuario por email.
 
-## License
+#### `GET /users/id/:id`
+Busca un usuario por id.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+### ✅ Tasks (todas protegidas por JWT)
+
+#### `GET /tasks`
+Lista **solo** las tareas del usuario autenticado.
+
+#### `POST /tasks/create`
+Crea una tarea para el usuario autenticado.
+
+**Body**
+```json
+{
+  "title": "Implementar DTOs",
+  "description": "Crear CreateTaskDto y UpdateTaskDto",
+  "status": "pending",
+  "priority": "medium",
+  "deadline": "2025-08-01T00:00:00.000Z"
+}
+```
+
+#### `PUT /tasks/update/:id`
+Actualiza una tarea **del usuario autenticado**.
+
+#### `DELETE /tasks/delete/:id`
+Elimina una tarea **del usuario autenticado**.
+
+---
+
+## 🧾 DTOs relevantes
+
+### `CreateTaskDto`
+```ts
+title: string;
+description?: string;
+status: 'pending' | 'in_progress' | 'completed';
+priority: 'low' | 'medium' | 'high';
+deadline?: Date;
+```
+
+### `UpdateTaskDto`
+Hereda de `CreateTaskDto` con `PartialType` → todas las props son **opcionales**.
+
+---
+
+## 🧠 Enums
+
+```ts
+export enum TaskStatus {
+  PENDING = 'pending',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+}
+
+export enum TaskPriority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+}
+```
+
+---
+
+## 🛡️ Seguridad & Buenas prácticas
+
+- **`AuthGuard('jwt')`** para rutas protegidas.
+- **Decorador `@CurrentUser()`** para extraer `{ userId, email }` del token.
+- **Validaciones con `class-validator` y DTOs** en cada endpoint.
+- **Errores consistentes** usando `HttpException` y derivados (`UnauthorizedException`, `NotFoundException`, etc.).
+- (Opcional) **`AllExceptionsFilter` global** para formatear respuestas de error.
+
+---
+
+## 🧭 Roadmap
+
+- [ ] Refresh Tokens
+- [ ] Recuperación de contraseña vía email
+- [ ] Paginación y filtros avanzados en `/tasks`
+- [ ] Soft deletes
+- [ ] Roles & permisos (admin / user)
+- [ ] Tests unitarios y e2e (Jest / Pactum / Supertest)
+
+---
+
+## 🤝 Contribuir
+
+1. Fork del repo
+2. `git checkout -b feature/nueva-feature`
+3. Commit & push
+4. Pull Request 🚀
+
+---
+
+## 👨‍💻 Autor
+
+**Martín Tavella**  
+Fullstack Dev — JS/TS • NestJS • Next.js • Prisma • PostgreSQL  
+GitHub: [martin-tavella](https://github.com/martin-tavella)
+
+---
+
+## 📝 Licencia
+
+Este proyecto está bajo la licencia MIT.
