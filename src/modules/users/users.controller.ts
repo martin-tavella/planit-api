@@ -1,13 +1,17 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-  @Post('register')
-  registerUser(
-    @Body() user: { email: string; name: string; password: string },
-  ) {
-    return this.usersService.registerUser(user);
+
+  @Get('email/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.usersService.findByEmail(email);
+  }
+
+  @Get('id/:id')
+  findById(@Param('id') id: number) {
+    return this.usersService.findById(+id);
   }
 }
