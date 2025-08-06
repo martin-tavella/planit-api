@@ -56,7 +56,12 @@ export class AuthService {
       credentials.email,
       credentials.password,
     );
-    const payload = { sub: user.id, email: user.email };
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      name: user.email,
+      picture: user.picture,
+    };
 
     return {
       access_token: this.jwtService.sign(payload),
@@ -78,7 +83,12 @@ export class AuthService {
       });
     }
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      name: user.email,
+      picture: user.picture,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };
