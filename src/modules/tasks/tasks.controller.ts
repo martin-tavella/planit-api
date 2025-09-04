@@ -29,7 +29,7 @@ export class TasksController {
     @Query('limit') limit?: number,
     @Query('priority') priority?: TaskPriority,
     @Query('status') status?: TaskStatus,
-    @Query('sort') sort?: 'ASC' | 'DES',
+    @Query('sort') sort?: 'ASC' | 'DESC',
     @Query('search') search?: string,
   ) {
     return this.tasksService.getTasksForUser(

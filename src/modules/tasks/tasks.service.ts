@@ -35,7 +35,7 @@ export class TasksService {
     limit = 5,
     priority?: TaskPriority,
     status?: TaskStatus,
-    sort: 'ASC' | 'DES' = 'DES',
+    sort: 'ASC' | 'DESC' = 'DESC',
     search?: string,
   ) {
     const where: any = { userId: userId };
