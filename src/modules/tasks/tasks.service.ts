@@ -7,6 +7,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateTaskDto } from './dtos/createTask.dto';
 import { Task } from '@prisma/client';
 import { UpdateTaskDto } from './dtos/updateTask.dto';
+import { TaskPriority } from './enums/priority.enum';
+import { TaskStatus } from './enums/status.enum';
 
 @Injectable()
 export class TasksService {
@@ -27,15 +29,41 @@ export class TasksService {
     }
   }
 
-  async getTasksForUser(userId: number) {
-    return await this.prisma.task.findMany({
-      where: {
-        userId: userId,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+  async getTasksForUser(
+    userId: number,
+    page = 1,
+    limit = 5,
+    priority?: TaskPriority,
+    status?: TaskStatus,
+    sort: 'ASC' | 'DES' = 'DES',
+    search?: string,
+  ) {
+    const where: any = { userId: userId };
+    if (priority) where.priority = priority;
+    if (status) where.status = status;
+    if (search) {
+      where.title = { contains: search, mode: 'insensitive' };
+    }
+    const orderBy: any = { createdAt: sort.toLowerCase() };
+
+    const skip = (page - 1) * limit;
+    const [tasks, total] = await Promise.all([
+      this.prisma.task.findMany({
+        where,
+        orderBy,
+        skip,
+        take: limit,
+      }),
+      this.prisma.task.count({ where }),
+    ]);
+
+    return {
+      tasks,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async create(task: CreateTaskDto, userId: number) {
