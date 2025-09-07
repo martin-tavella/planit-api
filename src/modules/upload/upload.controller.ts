@@ -38,6 +38,6 @@ export class UploadController {
     image: Express.Multer.File,
   ) {
     const url = await this.uploadService.uploadCloudinary(image);
-    await this.userService.updatePicture(user.userId, url);
+    return this.userService.updatePicture(user.userId, url);
   }
 }

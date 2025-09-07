@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async create(user: {
     email: string;
@@ -31,7 +35,7 @@ export class UsersService {
     return user;
   }
 
-  async updatePicture(id: number, picture: string): Promise<void> {
+  async updatePicture(id: number, picture: string): Promise<any> {
     const user = await this.prisma.user.update({
       where: { id },
       data: { picture },
@@ -39,5 +43,16 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      name: user.name,
+      picture: user.picture,
+    };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
